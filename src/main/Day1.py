@@ -20,6 +20,9 @@ class Day1:
                 increases += 1
         return increases
 
+    def part1_golf(self):
+        return sum([1 if self.data[i] > self.data[i - 1] else 0 for i in range(1, len(self.data))])
+
 
 if __name__ == '__main__':
     day1 = Day1('resources/input1')

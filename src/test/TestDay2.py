@@ -1,22 +1,23 @@
 import unittest
-from src.main.DayX import DayX
+from src.main.Day2 import Day2
 
 
-class TestDayX(unittest.TestCase):
+class TestDay2(unittest.TestCase):
 
     def setUp(self):
-        self.sut = DayX('resources/testX')
+        self.sut = Day2('resources/test2')
 
     def testSampleInputPart1(self):
         # When
         actual = self.sut.part1()
 
         # Then
-        assert(actual == 123)
+        assert(actual == 150)
 
     def testSampleInputPart2(self):
         # When
         actual = self.sut.part2()
 
         # Then
-        assert(actual == 123)
+        print(actual)
+        assert(actual == 900)
