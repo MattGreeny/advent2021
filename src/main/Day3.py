@@ -7,8 +7,7 @@ class Day3:
         self.data = InputReader.get_data_str(file)
 
     def part1(self):
-        gamma = ""
-        epsilon = ""
+        gamma = ''
         for i in range(len(self.data[0])):
             total_ones = 0
             total_zeros = 0
@@ -17,13 +16,8 @@ class Day3:
                     total_ones += 1
                 else:
                     total_zeros += 1
-            if total_ones > total_zeros:
-                gamma += "1"
-                epsilon += "0"
-            else:
-                gamma += "0"
-                epsilon += "1"
-        return int(gamma, 2) * int(epsilon, 2)
+            gamma += '1' if total_ones > total_zeros else '0'
+        return int(gamma, 2) * int(''.join(['1' if x == '0' else '0' for x in gamma]), 2)
 
     def part2(self):
         old_list_o2 = self.data.copy()
