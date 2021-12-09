@@ -16,6 +16,11 @@ class InputReader:
             return [list(x.strip()) for x in f.readlines()]
 
     @staticmethod
+    def get_data_int_list(file):
+        with open(file) as f:
+            return [list([int(y) for y in x.strip()]) for x in f.readlines()]
+
+    @staticmethod
     def get_data_str_split(file):
         with open(file) as f:
             data = [x.strip() for x in f.readlines()]
