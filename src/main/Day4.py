@@ -1,4 +1,4 @@
-from main.InputReader import InputReader
+from main.utils.InputReader import InputReader
 
 
 class Day4:

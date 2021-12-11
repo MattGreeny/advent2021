@@ -1,4 +1,5 @@
-from main.InputReader import InputReader
+from main.utils.InputReader import InputReader
+from main.utils.Point import Point
 
 
 class Day9:
@@ -12,30 +13,30 @@ class Day9:
     def part1(self):
         for i in range(0, len(self.data)):
             for j in range(0, len(self.data[0])):
-                if self.is_low(i, j):
-                    self.low_points.append((i, j))
+                point = Point(i, j)
+                if self.is_low(point):
+                    self.low_points.append(point)
         counter = 0
-        for x, y in self.low_points:
-            counter += self.data[x][y] + 1
+        for point in self.low_points:
+            counter += self.data[point.x][point.y] + 1
         return counter
 
-    def is_low(self, x, y):
-        to_consider = [(x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)]
-        for (a, b) in to_consider:
-            if self.is_in_range(a, b):
-                if self.data[a][b] < self.data[x][y]:
+    def is_low(self, point):
+        for neighbour in point.neighbours():
+            if self.is_in_range(neighbour):
+                if self.data[neighbour.x][neighbour.y] < self.data[point.x][point.y]:
                     return False
         return True
 
-    def is_in_range(self, x, y):
-        return 0 <= x < len(self.data) and 0 <= y < len(self.data[0])
+    def is_in_range(self, point):
+        return 0 <= point.x < len(self.data) and 0 <= point.y < len(self.data[0])
 
     def part2(self):
         self.low_points = []
         self.part1()
         basin_sizes = []
-        for x, y in self.low_points:
-            self.consider_neighbors(x, y)
+        for point in self.low_points:
+            self.consider_neighbours(point)
             basin_sizes.append(len(self.in_basin))
             self.in_basin = set([])
         product = 1
@@ -44,14 +45,13 @@ class Day9:
             product *= size
         return product
 
-    def consider_neighbors(self, x, y):
-        to_consider = [(x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)]
-        for (a, b) in to_consider:
-            if self.is_in_range(a, b) and (a, b) not in self.considered:
-                self.considered.append((a, b))
-                if self.data[a][b] != 9:
-                    self.consider_neighbors(a, b)
-                    self.in_basin.add((a, b))
+    def consider_neighbours(self, point):
+        for neighbour in point.neighbours():
+            if self.is_in_range(neighbour) and neighbour not in self.considered:
+                self.considered.append(neighbour)
+                if self.data[neighbour.x][neighbour.y] != 9:
+                    self.consider_neighbours(neighbour)
+                    self.in_basin.add(neighbour)
 
 
 if __name__ == '__main__':

@@ -1,4 +1,5 @@
-from main.InputReader import InputReader
+from main.utils.InputReader import InputReader
+from main.utils.Point import Point
 
 
 class Day11:
@@ -13,10 +14,11 @@ class Day11:
             for i in range(len(self.data)):
                 for j in range(len(self.data[0])):
                     self.data[i][j] += 1
-                    if self.data[i][j] > 9 and (i, j) not in self.flashed:
-                        self.flash(i, j)
-            for i, j in self.flashed:
-                self.data[i][j] = 0
+                    point = Point(i, j)
+                    if self.data[i][j] > 9 and point not in self.flashed:
+                        self.flash(point)
+            for point in self.flashed:
+                self.data[point.x][point.y] = 0
                 self.flashes += 1
             self.flashed = []
         return self.flashes
@@ -26,28 +28,25 @@ class Day11:
             for i in range(len(self.data)):
                 for j in range(len(self.data[0])):
                     self.data[i][j] += 1
-                    if self.data[i][j] > 9 and (i, j) not in self.flashed:
-                        self.flash(i, j)
+                    point = Point(i, j)
+                    if self.data[i][j] > 9 and point not in self.flashed:
+                        self.flash(point)
             if len(self.flashed) == len(self.data) * len(self.data[0]):
                 return num + 1
-            for i, j in self.flashed:
-                self.data[i][j] = 0
+            for point in self.flashed:
+                self.data[point.x][point.y] = 0
             self.flashed = []
 
-    def flash(self, x, y):
-        self.flashed.append((x, y))
-        for i in range(-1, 2):
-            for j in range(-1, 2):
-                if not (i == 0 and j == 0):
-                    a = x + i
-                    b = y + j
-                    if self.is_in_range(a, b):
-                        self.data[a][b] += 1
-                        if self.data[a][b] > 9 and (a, b) not in self.flashed:
-                            self.flash(a, b)
+    def flash(self, point):
+        self.flashed.append(point)
+        for neighbour in point.all_neighbours():
+            if self.is_in_range(neighbour):
+                self.data[neighbour.x][neighbour.y] += 1
+                if self.data[neighbour.x][neighbour.y] > 9 and neighbour not in self.flashed:
+                    self.flash(neighbour)
 
-    def is_in_range(self, x, y):
-        return 0 <= x < len(self.data) and 0 <= y < len(self.data[0])
+    def is_in_range(self, point):
+        return 0 <= point.x < len(self.data) and 0 <= point.y < len(self.data[0])
 
 
 if __name__ == '__main__':
