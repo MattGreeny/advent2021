@@ -14,13 +14,13 @@ class Day10:
 
     def check_legal(self, line):
         points = {')': 3, ']': 57, '}': 1197, '>': 25137}
-        opposites = {')': '(', ']': '[', '}': '{', '>': '<'}
+        pairs = {')': '(', ']': '[', '}': '{', '>': '<'}
         stack = []
         for character in line:
             if character in '({[<':
                 stack.append(character)
             else:
-                if opposites[character] == stack[len(stack) - 1]:
+                if pairs[character] == stack[len(stack) - 1]:
                     stack.pop()
                 else:
                     return points[character]
@@ -35,22 +35,21 @@ class Day10:
         return scores[int((len(scores) - 1) / 2)]
 
     def complete_stack(self, line):
-        points = {')': 1, ']': 2, '}': 3, '>': 4}
-        opposites = {')': '(', ']': '[', '}': '{', '>': '<'}
-        opposites_reversed = {v: k for k, v in opposites.items()}
+        points = {'(': 1, '[': 2, '{': 3, '<': 4}
+        pairs = {')': '(', ']': '[', '}': '{', '>': '<'}
         stack = []
         for character in line:
             if character in '({[<':
                 stack.append(character)
             else:
-                if opposites[character] == stack[len(stack) - 1]:
+                if pairs[character] == stack[len(stack) - 1]:
                     stack.pop()
                 else:
                     return 0
         score = 0
         while len(stack) > 0:
             score *= 5
-            score += points[opposites_reversed[stack.pop()]]
+            score += points[stack.pop()]
         return score
 
 

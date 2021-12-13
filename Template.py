@@ -16,4 +16,5 @@ class DayX:
 if __name__ == '__main__':
     dayX = DayX('resources/inputX')
     print(dayX.part1())
+    dayX = DayX('resources/inputX')
     print(dayX.part2())
